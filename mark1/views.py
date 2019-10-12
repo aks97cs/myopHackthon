@@ -8,6 +8,8 @@ from django.views.decorators.csrf import csrf_exempt
 @csrf_exempt
 def connectTodb(request):
     data = request.POST
+    if 'username' not in data or 'password' not in data or 'host' not in data:
+        return JsonResponse({'status': 'error', 'data': data, 'msg': 'data is missing'})
     talkTdbServer(data['username'], data['password'], data['host'], data['dbname']) if 'dbname' in data else talkTdbServer(data['username'], data['password'], data['host'])
     sql  = 'show tables' if 'dbname' in data else 'show databases'
     dbcur.execute(sql)
@@ -32,8 +34,14 @@ def  talkTdbServer(username, password, host, dbname = False):
 @csrf_exempt
 def tableDescribe(request):
     data = request.POST
-    pass
+    talkTdbServer(data['username'], data['password'], data['host'], data['dbname'])
+    resp = talkTotable(data)
+    return JsonResponse({'status': 'success', 'data': resp})
 
 def talkTotable(data):
-    pass
+    sql = 'desc ' + str(data['tableName'])
+    dbcur.execute(sql)
+    tbDetail = dbcur.fetchall()
+    print(tbDetail)
+    return tbDetail
 

@@ -19,5 +19,6 @@ from django.conf.urls import url
 from mark1 import views
 urlpatterns = [
     url('connectTodb', views.connectTodb ),
+    url('tableDescribe', views.tableDescribe),
     path('admin/', admin.site.urls),
 ]
