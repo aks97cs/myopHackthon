@@ -47,7 +47,11 @@ def talkTotable(data):
     dbcur.execute(sql)
     tbDetail = dbcur.fetchall()
     print(tbDetail)
-    return tbDetail
+    tblist = []
+    for val in tbDetail:
+        tblist.append(val[0])
+    print(tblist)
+    return tblist
 
 '''
 Api Params: {
