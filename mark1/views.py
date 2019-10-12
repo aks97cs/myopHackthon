@@ -14,7 +14,11 @@ def connectTodb(request):
     sql  = 'show tables' if 'dbname' in data else 'show databases'
     dbcur.execute(sql)
     dbs = dbcur.fetchall()
-    resp = {'status': 'success', 'data': dbs}
+    newlist = []
+    for val in dbs:
+        # print(val[0]) 
+        newlist.append(val[0])
+    resp = {'status': 'success', 'data': newlist}
     return JsonResponse(resp)
 
 
@@ -44,4 +48,21 @@ def talkTotable(data):
     tbDetail = dbcur.fetchall()
     print(tbDetail)
     return tbDetail
+
+'''
+Api Params: {
+                ['s1'] = 'server 1 credential',
+                ['s2'] = 'server 2 credential',
+                ['data'] = {    
+                                {   
+                                    'name' : 'username',
+                                    'val': 'Anuj Singh'
+                            }
+            }
+'''
+@csrf_exempt
+def startMyMigrations(request):
+    data = request.POST
+    print(data)
+    pass
 
